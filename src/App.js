@@ -44,27 +44,30 @@ const popStyles = {
 class App extends Component {
   render() {
     return (
-      <Router>
-        <Route render={({location, history, match}) => {
-          const routeStyles = history.action === 'POP' ? popStyles : pushStyles
-          return (
-            <RouteTransition
-              pathname={location.pathname}
-              {...routeStyles}
-              runOnMount={false}
-              mapStyles={styles => ({
-                transform: `translateX(${styles.translateX}%)`,
-                opacity: styles.opacity || 1 })}>
+      <div>
+        <h1>Header</h1>
+        <Router>
+          <Route render={({location, history, match}) => {
+            const routeStyles = history.action === 'POP' ? popStyles : pushStyles
+            return (
+              <RouteTransition
+                pathname={location.pathname}
+                {...routeStyles}
+                runOnMount={false}
+                mapStyles={styles => ({
+                  transform: `translateX(${styles.translateX}%)`,
+                  opacity: styles.opacity || 1 })}>
 
-              <Switch key={location.key} location={location}>
-                <Route exact path="/" component={Home} />
-                <Route exact path="/about" component={About}/>
-              </Switch>
+                <Switch key={location.key} location={location}>
+                  <Route exact path="/" component={Home} />
+                  <Route exact path="/about" component={About}/>
+                </Switch>
 
-            </RouteTransition>
-          )
-        }} />
-      </Router>
+              </RouteTransition>
+            )
+          }} />
+        </Router>
+      </div>
     )
   }
 }
