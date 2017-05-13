@@ -47,7 +47,6 @@ class App extends Component {
       <Router>
         <Route render={({location, history, match}) => {
           const routeStyles = history.action === 'POP' ? popStyles : pushStyles
-          console.log('---', history.action)
           return (
             <RouteTransition
               pathname={location.pathname}
