@@ -14,26 +14,26 @@ const baseStyles = {
 const Home = () => (
   <div style={{ ...baseStyles, backgroundColor: 'WhiteSmoke', color: 'black'}}>
     <h1>Home</h1>
-    <Link to="/cartao">
-      <button>Cartao</button>
+    <Link to="/card">
+      <button>Card</button>
     </Link>
   </div>
 )
 
-const NumeroNome = () => (
+const NumberName = () => (
   <div style={{ ...baseStyles, backgroundColor: 'red'}}>
-    <h1>Numero e Nome</h1>
-    <Link to="/cartao/cvv">
-      <button>CVV</button>
+    <h1>Number and Name</h1>
+    <Link to="/card/cvc">
+      <button>CVC</button>
     </Link>
   </div>
 )
 
-const CVV = () => (
+const CVC = () => (
   <div style={{ ...baseStyles, backgroundColor: 'green'}}>
-    <h1>CVV</h1>
+    <h1>CVC</h1>
     <Link to="/">
-      <button>Escolher este cartão</button>
+      <button>Choose this card</button>
     </Link>
   </div>
 )
@@ -50,17 +50,32 @@ const popStyles = {
   atActive: { translateX: 0, opacity: 1 }
 }
 
-const onlyOpacityStyles = {
+const backToIndex = {
   atEnter: { translateX: -30, opacity: 0 },
   atLeave: { translateX: 0, opacity: 0 },
   atActive: { translateX: 0, opacity: 1 }
 }
 
+const toCartaoStyles = {
+  atEnter: { translateX: 50, opacity: 0 },
+  atLeave: { translateX: 0, opacity: 0 },
+  atActive: { translateX: 0, opacity: 1 }
+}
+
+const defineTransition = (pathname, action) => {
+  switch (pathname) {
+    case '/':
+      return backToIndex
+    case '/card':
+      return toCartaoStyles
+    default:
+      return action === 'POP' ? popStyles : pushStyles
+  }
+}
+
 const Wizard = () => (
   <Route render={({location, history, match}) => {
-    const routeStyles = location.pathname === '/'
-      ? onlyOpacityStyles
-      : history.action === 'POP' ? popStyles : pushStyles
+    const routeStyles = defineTransition(location.pathname, history.action)
 
     return (
       <RouteTransition
@@ -69,11 +84,11 @@ const Wizard = () => (
         runOnMount={false}
         mapStyles={styles => ({
           transform: `translateX(${styles.translateX}%)`,
-          opacity: styles.opacity || 1 })}>
+          opacity: styles.opacity})}>
 
         <Switch key={location.key} location={location}>
-          <Route path="/cartao/cvv" component={CVV}/>
-          <Route path="/cartao" component={NumeroNome} />
+          <Route path="/card/cvc" component={CVC}/>
+          <Route path="/card" component={NumberName} />
           <Route path="/" component={Home} />
           <Redirect to="/" />
         </Switch>
@@ -88,7 +103,8 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <h1>Header</h1>
+          <Route exact path='/' render={() => <h1>Header</h1>} />
+          <Route path='/card' render={() => <h1>Header: Card</h1>} />
           <Wizard />
         </div>
       </Router>
