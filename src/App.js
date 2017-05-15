@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { RouteTransition } from 'react-router-transition'
+import { RouteTransition, presets } from 'react-router-transition'
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom'
 
 const baseStyles = {
@@ -76,9 +76,9 @@ const backToIndex = {
 const defineTransition = (pathname, action) => {
   switch (pathname) {
     case '/':
-      return backToIndex
+      return presets.slideRight
     default:
-      return action === 'POP' ? popStyles : pushStyles
+      return action === 'POP' ? presets.slideRight : presets.slideLeft
   }
 }
 
@@ -90,10 +90,7 @@ const AppContents = () => (
       <RouteTransition
         pathname={location.pathname}
         {...routeStyles}
-        runOnMount={false}
-        mapStyles={styles => ({
-          transform: `translateX(${styles.translateX}%)`,
-          opacity: styles.opacity})}>
+        runOnMount={false}>
 
         <Switch key={location.key} location={location}>
           <Route path="/card/cvc" component={CVC}/>
