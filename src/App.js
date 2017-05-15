@@ -8,7 +8,7 @@ const baseStyles = {
   left: 0,
   color: 'white',
   width: '100vw',
-  height: '100vw'
+  height: '90vh'
 }
 
 const indexButtonContainerStyles = {
@@ -56,13 +56,13 @@ const CVC = () => (
 )
 
 const pushStyles = {
-  atEnter: { translateX: 50, opacity: 0 },
+  atEnter: { translateX: 30, opacity: 0 },
   atLeave: { translateX: 0, opacity: 0 },
   atActive: { translateX: 0, opacity: 1 }
 }
 
 const popStyles = {
-  atEnter: { translateX: -50, opacity: 0 },
+  atEnter: { translateX: -30, opacity: 0 },
   atLeave: { translateX: 0, opacity: 0 },
   atActive: { translateX: 0, opacity: 1 }
 }
@@ -82,7 +82,7 @@ const defineTransition = (pathname, action) => {
   }
 }
 
-const Wizard = () => (
+const AppContents = () => (
   <Route render={({location, history, match}) => {
     const routeStyles = defineTransition(location.pathname, history.action)
 
@@ -107,14 +107,20 @@ const Wizard = () => (
   }} />
 )
 
+const Header = ({ text }) => (
+  <div style={{ height: '10vh' }}>
+    <h1 style={{ margin: 0 }}>{text}</h1>
+  </div>
+)
+
 class App extends Component {
   render() {
     return (
       <Router>
         <div>
-          <Route exact path='/' render={() => <h1>Header</h1>} />
-          <Route path='/card' render={() => <h1>Header: Card</h1>} />
-          <Wizard />
+          <Route exact path='/' render={() => <Header text="Header" />} />
+          <Route path='/card' render={() => <Header text="Header: Card" />} />
+          <AppContents />
         </div>
       </Router>
     )
