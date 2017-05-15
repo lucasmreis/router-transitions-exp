@@ -11,11 +11,28 @@ const baseStyles = {
   height: '100vw'
 }
 
+const indexButtonContainerStyles = {
+  position: 'relative',
+  width: '80vw',
+  margin: '10vw',
+  border: '1px solid lightgray',
+  height: '80px'
+}
+
+const indexButtonContentsStyles = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translateY(-50%) translateX(-50%)'
+}
+
 const Home = () => (
   <div style={{ ...baseStyles, backgroundColor: 'WhiteSmoke', color: 'black'}}>
     <h1>Home</h1>
     <Link to="/card">
-      <button>Card</button>
+      <div style={indexButtonContainerStyles}>
+        <div style={indexButtonContentsStyles}>Card</div>
+      </div>
     </Link>
   </div>
 )
@@ -56,18 +73,10 @@ const backToIndex = {
   atActive: { translateX: 0, opacity: 1 }
 }
 
-const toCartaoStyles = {
-  atEnter: { translateX: 50, opacity: 0 },
-  atLeave: { translateX: 0, opacity: 0 },
-  atActive: { translateX: 0, opacity: 1 }
-}
-
 const defineTransition = (pathname, action) => {
   switch (pathname) {
     case '/':
       return backToIndex
-    case '/card':
-      return toCartaoStyles
     default:
       return action === 'POP' ? popStyles : pushStyles
   }
